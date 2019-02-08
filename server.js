@@ -7,7 +7,11 @@ app.use(express.json());
 
 app.use(express.static(__dirname + '/public'));
 
+var PORT = process.env.PORT || 3000;
+
 require('./routing/htmlroutes')(app);
 require('./routing/apiroutes')(app);
 
-app.listen( 8081 );
+app.listen( PORT, ()=> {
+    console.log("listening");
+} );
