@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script>
+        
+        function listQuestion( qn, q ){
+
+            $('#formSubmit').append(
+
+                '<h4>Question ' + qn + '</h4>' +
+                '<h5>' + q + '</h5>' +
+                '<select id="q' + qn + '" \
+                <option value=""></option> \
+                <option value="1">1 (Strongly Disagree)</option> \
+                <option value="2">2</option> \
+                <option value="3">3</option> \
+                <option value="4">4</option> \
+                <option value="5">5 (Strongly Agree)</option></select><hr>'
+
+            );
+        }
+    
+    </script>
+    <title>home</title>
+  </head>
+  <body>
+  
+      <div class="container">
+         <div class="jumbotron">
+          
+            <h2>Survey</h2>
+            <h4>Answer these questions and stop being a loser</h4>
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <form id="formSubmit" action="/survey" method="post">
+                        <label for="name">Enter name: </label>
+                        <input type="text" name="name">
+                        <label for="picture">Picture Url: </label>
+                        <input type="text" name="picture">
+                        
+                        <script>
+                            listQuestion( 1, 'Your mind is always buzzing with unexplored ideas and plans.');
+                            listQuestion( 2, 'Generally speaking, you rely more on your experience than your imagination.');
+                            listQuestion( 3, 'You find it easy to stay relaxed and focused even when there is some pressure.');
+                            listQuestion( 4, 'You rarely do something just out of sheer curiosity.');
+                            listQuestion( 5, 'People can rarely upset you.');
+                            listQuestion( 6, 'It is often difficult for you to relate to other people’s feelings.');
+                            listQuestion( 7, 'In a discussion, truth should be more important than people’s sensitivities.');
+                            listQuestion( 8, 'You rarely get carried away by fantasies and ideas.');
+                            listQuestion( 9, 'You think that everyone’s views should be respected regardless of whether they are supported by facts or not.');
+                            listQuestion( 10, 'You feel more energetic after spending time with a group of people.');
+                        </script>
+                        <button type="submit"> Submit </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="results-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title"><strong>Best Match</strong></h2>
+                </div>
+                <div class="modal-body">
+                <h2 id="match-name"></h2>
+                <img id="modal-pic" src="#" width="200" height="250"/>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $("#formSubmit").submit( function(e) {
+            e.preventDefault();
+
+            $.post('/api/friends', {
+
+                name: $("#formSubmit input[name=name]").val(),
+                pic: $("#formSubmit input[name=picture]").val(),
+                q: $.map( $('#formSubmit select'), o => {return o.value })
+
+            }, result => {
+
+                let temp = JSON.parse( result );
+                $('#match-name').html( temp.name );
+                $('#modal-pic').attr( 'src', temp.pic );
+                $('#results-modal').modal();
+            });
+
+    })</script>
+  </body> 
+</html>
