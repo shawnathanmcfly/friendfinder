@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "heroku-postbuild": "npm install express --save && npm install path --save",
+    "heroku-postbuild": "npm install express --save && npm install path --save && npm install body-parser --save",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
