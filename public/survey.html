@@ -98,6 +98,9 @@
                 $('#match-name').html( temp.name );
                 $('#modal-pic').attr( 'src', temp.pic );
                 $('#results-modal').modal();
+                $("#formSubmit select").val("1");
+                $("#formSubmit input[name=name]").val('');
+                $("#formSubmit input[name=picture]").val('');
             });
 
     })</script>
